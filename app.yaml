@@ -1,0 +1,8 @@
+runtime: python38
+
+instance_class: B1
+
+manual_scaling:
+  instances: 1
+
+entrypoint: python3 main.py
