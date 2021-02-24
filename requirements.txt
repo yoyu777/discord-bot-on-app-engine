@@ -1,2 +1,4 @@
 discord.py==1.6.0
+gspread==3.7.0
 google-cloud-secret-manager==2.2.0
+google-auth==1.26.1
