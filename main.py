@@ -2,28 +2,22 @@ import discord
 
 # Import the Secret Manager client library.
 from google.cloud import secretmanager
+from secret import get_discord_token
+from sheets import get_question,record_answer,get_channel_id
+from os import environ
 
-# GCP project in which to store secrets in Secret Manager.
-project_id = "discord-bot-demo-304514"
-
-# ID of the secret to create.
-secret_id = "discord-bot-token"
-
-# Create the Secret Manager client.
-secretmanager_client = secretmanager.SecretManagerServiceClient()
-
-response=secretmanager_client.access_secret_version(
-    name=f'projects/{project_id}/secrets/{secret_id}/versions/1'
-)
-
-# Print the secret payload.
-#
-# WARNING: Do not print the secret in a production environment - this
-# snippet is showing how to access the secret material.
-discord_bot_token = response.payload.data.decode("UTF-8")
-
+project_id=environ['PROJECT_ID']
+secret_id=environ['SECRET_ID']
+discord_bot_token = get_discord_token(project_id,secret_id)
 
 client = discord.Client()
+
+def has_mentioned(mentions,id):
+    for mention in mentions:
+        if mention.id==id:
+            return True
+    return False
+
 
 @client.event
 async def on_ready():
@@ -31,10 +25,32 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author == client.user:
-        return
+    channel_id=get_channel_id()
 
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
+    if message.author == client.user:
+        await message.channel.fetch_message(message.id)
+        return
+    
+    if message.channel.type.name=='private':
+        if message.content.startswith('+question') or message.content.startswith('+Question'):
+            if channel_id is None:
+                await message.channel.send('Channel not set')
+            else:
+                question=get_question()
+       
+                if question is not None:
+                    prompts=[
+                        f':question: Here is the question of the week:**{question}**',
+                        '',
+                        '- :pencil: I will record your answers if you mention me (@Question of the Day).',
+                        '- :envelope: Or chat with me privately, and I will take notes *anonymously*.'
+                    ]
+                await client.get_channel(channel_id).send('\n'.join(prompts))
+
+        else:
+            record_answer('Anonymous',message.content)
+
+    if message.channel.id==channel_id and has_mentioned(message.mentions,client.user.id):
+        record_answer(message.author.name,message.content)
 
 client.run(discord_bot_token)

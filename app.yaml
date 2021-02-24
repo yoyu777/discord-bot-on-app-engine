@@ -2,7 +2,14 @@ runtime: python38
 
 instance_class: B1
 
+service: question-bot
+
 manual_scaling:
   instances: 1
 
 entrypoint: python3 main.py
+
+env_variables:
+  SHEET_ID: '1t7vdvHQBdbwpPqBf3DWHLeCve2hV9HUut3xJONkx3ZY'
+  PROJECT_ID: '120836897182'
+  SECRET_ID: 'question-bot-secret'
