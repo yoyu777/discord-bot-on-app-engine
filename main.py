@@ -3,7 +3,7 @@ import discord
 # Import the Secret Manager client library.
 from google.cloud import secretmanager
 from secret import get_discord_token
-from sheets import get_question,record_answer,get_channel_id
+from sheets import get_question,record_answer,get_channel_id,get_question_prefix,get_question_suffix
 from os import environ
 
 project_id=environ['PROJECT_ID']
@@ -40,10 +40,10 @@ async def on_message(message):
        
                 if question is not None:
                     prompts=[
-                        f':question: Here is the question of the week:**{question}**',
+                        get_question_prefix(),
+                        f'**{question}**',
                         '',
-                        '- :pencil: I will record your answers if you mention me (@Question of the Day).',
-                        '- :envelope: Or chat with me privately, and I will take notes *anonymously*.'
+                        get_question_suffix()
                     ]
                 await client.get_channel(channel_id).send('\n'.join(prompts))
 

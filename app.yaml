@@ -10,6 +10,6 @@ manual_scaling:
 entrypoint: python3 main.py
 
 env_variables:
-  SHEET_ID: '1t7vdvHQBdbwpPqBf3DWHLeCve2hV9HUut3xJONkx3ZY'
-  PROJECT_ID: '960772171792'
-  SECRET_ID: 'question-of-the-day-bot-token'
+  SHEET_ID: '1bNhH84cUS-g8Pej72EkFD8_f30v7Y_43hDoTrDOI0-I'
+  PROJECT_ID: '120836897182'
+  SECRET_ID: 'question-bot-secret'

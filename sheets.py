@@ -35,6 +35,22 @@ def get_question():
     except:
         return None
 
+def get_question_prefix():
+    worksheet = sh.get_worksheet(0)
+    try:
+        val = worksheet.get('B4').first()
+        return str(val)
+    except:
+        return None
+
+def get_question_suffix():
+    worksheet = sh.get_worksheet(0)
+    try:
+        val = worksheet.get('B5').first()
+        return str(val)
+    except:
+        return None
+
 def record_answer(author,answer):
     answer_sheet = sh.worksheet("Answers")
 
