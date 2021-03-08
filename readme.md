@@ -6,7 +6,8 @@ This is the code repository for Discord Bot on App Engine Demo.
 
 This collection of tutorials demonstrate how to create a Discord Bot on Google Cloud using Python:
 1. Creating a Discord Bot on App Engine: https://www.youtube.com/watch?v=aczvOQ6S6sA
-2. Using Secret Manager to Manage Tokens: 
+2. Using Secret Manager to Manage Tokens: https://www.youtube.com/watch?v=wb4RU5rpooQ
+3. Hosting a Poll Bot: https://www.youtube.com/watch?v=wUdZKMeLG4w
 
 Github repo: https://github.com/yoyu777/discord-bot-on-app-engine
 
